@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grocery.store.ws.dto.request.GroceryStoreEndpointsRequestDTO;
+import com.grocery.store.ws.dto.response.GroceryStoreResultsResponse;
+import com.grocery.store.ws.mongodb.entities.GroceryProductEntity;
 import com.grocery.store.ws.service.GroceryStoreCrudService;
 
 @CrossOrigin
@@ -29,33 +31,25 @@ public class GroceryStoreCrudEndpoints {
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
 	@Retryable(value = Exception.class, maxAttempts = 5, backoff = @Backoff(delay = 2000))
 	public ResponseEntity<?> createStoreProduct(@RequestBody GroceryStoreEndpointsRequestDTO request) {
-
-		try {
-
-			return new ResponseEntity<String>("", HttpStatus.CREATED);
-		} catch (Exception e) {
-			return null;
-
-		}
-
+		return new ResponseEntity<GroceryProductEntity>(service.createNewProductIntoGroceryStore(request),
+				HttpStatus.CREATED);
 	}
 
 	@GetMapping
-	@Retryable(value = Exception.class, maxAttempts = 5, backoff = @Backoff(delay = 2000))
 	public ResponseEntity<?> getAllProducDetails() {
-		return null;
+		return new ResponseEntity<GroceryStoreResultsResponse>(service.readAllProductData(), HttpStatus.OK);
 	}
 
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
-	@Retryable(value = Exception.class, maxAttempts = 5, backoff = @Backoff(delay = 2000))
 	public ResponseEntity<?> updateStoreProduct(@RequestBody GroceryStoreEndpointsRequestDTO request) {
-		return null;
+		return new ResponseEntity<GroceryProductEntity>(service.createNewProductIntoGroceryStore(request),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
-	@Retryable(value = Exception.class, maxAttempts = 5, backoff = @Backoff(delay = 2000))
 	public ResponseEntity<?> deleteStoreProductDetails(@RequestBody GroceryStoreEndpointsRequestDTO request) {
-		return null;
+		service.deleteGroceryStoreProduct(request);
+		return new ResponseEntity<String>("Product Deleted!", HttpStatus.OK);
 	}
 
 }
