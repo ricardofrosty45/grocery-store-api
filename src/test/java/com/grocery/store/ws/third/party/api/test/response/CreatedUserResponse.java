@@ -10,4 +10,10 @@ public class CreatedUserResponse {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "CreatedUserResponse [id=" + id + "]";
+	}
+
 }

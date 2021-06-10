@@ -47,7 +47,7 @@ public class ThirdPartyVirtualStoreApiMockTest {
 		ResponseEntity<CreatedUserResponse> rest = restTemplate.exchange(endpointTest, HttpMethod.POST, entity,
 				CreatedUserResponse.class);
 
-		log.info("Result:" + rest.getBody());
+		log.info("Result:" + rest.getBody().toString());
 		createUserRequest.setEmail(UUID.randomUUID().toString());
 		assertThat(restTemplate.postForEntity(endpointTest, new Gson().toJson(createUserRequest),
 				CreatedUserResponse.class));
