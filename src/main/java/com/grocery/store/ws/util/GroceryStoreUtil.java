@@ -13,4 +13,13 @@ public class GroceryStoreUtil {
 			throw new RequestIsWrongException("Please, Inform The Product Name!", "productName");
 		}
 	}
+
+	public void checkId(GroceryStoreEndpointsRequestDTO request) {
+		if (request.getId() == null) {
+			throw new RequestIsWrongException("Please, Inform The Product Id!", "id");
+		}
+		if (request.getId().isEmpty()) {
+			throw new RequestIsWrongException("Please, Inform The Product Id!", "id");
+		}
+	}
 }

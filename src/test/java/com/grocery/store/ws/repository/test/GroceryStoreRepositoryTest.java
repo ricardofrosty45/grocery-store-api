@@ -61,11 +61,4 @@ public class GroceryStoreRepositoryTest {
 		assertThat(repository.findAll()).isNotEmpty();
 	}
 
-	@Test
-	@Order(3)
-	public void shouldDelete() {
-		deleteEntity = repository.findByProductName("TestName");
-		repository.delete(deleteEntity);
-	}
-
 }
