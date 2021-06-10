@@ -62,7 +62,7 @@ public class GroceryStoreCrudService {
 		entity.setProductDescription(request.getProductDescription());
 		entity.setTypeOfProduct(request.getTypeOfProduct());
 
-		return repository.insert(entity);
+		return repository.save(entity);
 	}
 
 	@Retryable(value = DataBaseException.class, maxAttempts = 5, backoff = @Backoff(delay = 2000))

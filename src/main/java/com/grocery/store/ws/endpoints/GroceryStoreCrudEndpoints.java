@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +17,7 @@ import com.grocery.store.ws.dto.request.GroceryStoreEndpointsRequestDTO;
 import com.grocery.store.ws.dto.response.GroceryStoreResultsResponse;
 import com.grocery.store.ws.mongodb.entities.GroceryProductEntity;
 import com.grocery.store.ws.service.GroceryStoreCrudService;
+import com.grocery.store.ws.util.GroceryStoreUtil;
 
 @CrossOrigin
 @RestController
@@ -29,7 +28,6 @@ public class GroceryStoreCrudEndpoints {
 	private GroceryStoreCrudService service;
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
-	@Retryable(value = Exception.class, maxAttempts = 5, backoff = @Backoff(delay = 2000))
 	public ResponseEntity<?> createStoreProduct(@RequestBody GroceryStoreEndpointsRequestDTO request) {
 		return new ResponseEntity<GroceryProductEntity>(service.createNewProductIntoGroceryStore(request),
 				HttpStatus.CREATED);
@@ -42,12 +40,13 @@ public class GroceryStoreCrudEndpoints {
 
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> updateStoreProduct(@RequestBody GroceryStoreEndpointsRequestDTO request) {
-		return new ResponseEntity<GroceryProductEntity>(service.createNewProductIntoGroceryStore(request),
-				HttpStatus.OK);
+		GroceryStoreUtil.checkId(request);
+		return new ResponseEntity<GroceryProductEntity>(service.updateGroceryProduct(request), HttpStatus.OK);
 	}
 
 	@DeleteMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> deleteStoreProductDetails(@RequestBody GroceryStoreEndpointsRequestDTO request) {
+		GroceryStoreUtil.checkId(request);
 		service.deleteGroceryStoreProduct(request);
 		return new ResponseEntity<String>("Product Deleted!", HttpStatus.OK);
 	}
