@@ -1,0 +1,145 @@
+---
+swagger: '2.0'
+info:
+  description: API Documentation for the project grocery-store-api
+  version: '1.0'
+  title: Grocery-Store-Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: grocery-store-api-prod.herokuapp.com
+basePath: "/"
+tags:
+- name: Api-Endpoints
+  description: Grocery Store Api Endpoints
+paths:
+  "/v1/store-product":
+    get:
+      tags:
+      - Api-Endpoints
+      summary: getAllProducDetails
+      operationId: getAllProducDetailsUsingGET
+      produces:
+      - "*/*"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+               type: object
+               properties:
+                id:
+                   type: string
+                productName:
+                   type: string
+                productValue:
+                   type: integer
+                productDescription:
+                   type: string
+                typeOfProduct:
+                   type: string
+      deprecated: false
+    post:
+      tags:
+      - Api-Endpoints
+      summary: createStoreProduct
+      operationId: createStoreProductUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: request
+        description: request
+        required: true
+        schema:
+          "$ref": "#/definitions/GroceryStoreEndpointsRequestDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+      - Api-Endpoints
+      summary: updateStoreProduct
+      operationId: updateStoreProductUsingPUT
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: request
+        description: request
+        required: true
+        schema:
+          "$ref": "#/definitions/GroceryStoreEndpointsRequestDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+      - Api-Endpoints
+      summary: deleteStoreProductDetails
+      operationId: deleteStoreProductDetailsUsingDELETE
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: request
+        description: request
+        required: true
+        schema:
+          "$ref": "#/definitions/GroceryStoreEndpointsRequestDTO"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '400':
+          description: Forbidden
+      deprecated: false
+definitions:
+  GroceryStoreEndpointsRequestDTO:
+    type: object
+    properties:
+      id:
+        type: string
+      productDescription:
+        type: string
+      productName:
+        type: string
+      productValue:
+        type: number
+      typeOfProduct:
+        type: string
+    title: GroceryStoreEndpointsRequestDTO
